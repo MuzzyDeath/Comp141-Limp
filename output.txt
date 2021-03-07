@@ -1,0 +1,87 @@
+Line 1 : 34 + 89 - x * y23
+34 : NUMBER
++ : SYMBOL
+89 : NUMBER
+- : SYMBOL
+x : IDENTIFIER
+* : SYMBOL
+y23 : IDENTIFIER
+Line 3 : cxo6y / 6 7 z23 * 5 6 & 34 * x
+cxo6y : IDENTIFIER
+/ : SYMBOL
+6 : NUMBER
+7 : NUMBER
+z23 : IDENTIFIER
+* : SYMBOL
+5 : NUMBER
+6 : NUMBER
+& : ERROR
+34 : NUMBER
+* : SYMBOL
+x : IDENTIFIER
+Line 4 : 2 + x
+2 : NUMBER
++ : SYMBOL
+x : IDENTIFIER
+Line 5 : cxo6y + - 4 * - 1
+cxo6y : IDENTIFIER
++ : SYMBOL
+- : SYMBOL
+4 : NUMBER
+* : SYMBOL
+- : SYMBOL
+1 : NUMBER
+Line 7 : catfood
+catfood : IDENTIFIER
+Line 8 : catfood45
+catfood45 : IDENTIFIER
+Line 10 : 7 h % t
+7 : NUMBER
+h : IDENTIFIER
+% : ERROR
+t : IDENTIFIER
+Line 12 : x32 := 36 - y ;
+x32 : IDENTIFIER
+:= : SYMBOL
+36 : NUMBER
+- : SYMBOL
+y : IDENTIFIER
+; : SYMBOL
+Line 13 : if y then
+if : KEYWORD
+y : IDENTIFIER
+then : KEYWORD
+Line 14 : x32 := 0 ; skip
+x32 : IDENTIFIER
+:= : SYMBOL
+0 : NUMBER
+; : SYMBOL
+skip : KEYWORD
+Line 15 : else
+else : KEYWORD
+Line 16 : whiley := 1 2 ^ 2 ;
+whiley : IDENTIFIER
+:= : SYMBOL
+1 : NUMBER
+2 : NUMBER
+^ : ERROR
+2 : NUMBER
+; : SYMBOL
+Line 17 : z := x32
+z : IDENTIFIER
+:= : SYMBOL
+x32 : IDENTIFIER
+Line 18 : endif
+endif : KEYWORD
+Line 20 : catfood := 45
+catfood : IDENTIFIER
+:= : SYMBOL
+45 : NUMBER
+Line 22 : while .
+while : KEYWORD
+. : ERROR
+Line 24 : if 4 5 )
+if : KEYWORD
+4 : NUMBER
+5 : NUMBER
+) : SYMBOL
