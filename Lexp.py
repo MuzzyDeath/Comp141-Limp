@@ -22,6 +22,13 @@ class Tokens:
         self.left = l
         self.right = r
 
+    def print(self):
+        print(f"root: {self.root}")
+        print(f"type: {self.type}")
+        print(f"left: {self.left}")
+        print(f"right: {self.right}")
+        print("------------------")
+
 
 def output(lines):
     out_file = open(sys.argv[2], 'a')
@@ -71,17 +78,14 @@ def atomize(token):
                 tokens.append(token)
                 token = token.strip(token)
             else:
-                print(f"Checking word: {word} -- Stage 1")
                 if re.match(KEYWORD, (word.join(characters[index]))):
                     while re.match(KEYWORD, (word.join(characters[index]))):
-                        print(f"Checking word: {word} -- Stage 2")
                         word = word + characters[index]
                         index += 1
                     tokens.append(word)
                     token = token.strip(word)
                 elif re.match(IDENTIFIER, (word.join(characters[index]))):
                     while re.match(IDENTIFIER, (word.join(characters[index]))):
-                        print(f"Checking word: {word} -- Stage 3")
                         word = word + characters[index]
                         index += 1
                     tokens.append(word)
@@ -136,18 +140,17 @@ def atomize(token):
 
 
 def tokenize(file, line):
-    # print(f"Current Line: {line}")
     segments = line.split(' ')
     tokens = []  # Make list to hold tokens
 
     for token in segments:
         if re.match(NUMBER, token):
             tokens.append(token)
+        elif re.match(KEYWORD, token):
+            tokens.append(token)
         elif re.match(IDENTIFIER, token):
             tokens.append(token)
         elif re.match(SYMBOL, token):
-            tokens.append(token)
-        elif re.match(KEYWORD, token):
             tokens.append(token)
         else:
             results = atomize(token)
@@ -161,7 +164,39 @@ def tokenize(file, line):
 
 
 def parse():
+    index = -1
     for token in token_bank:
+        index += 1  # Keep track of index
         if token.type is "SYMBOL":
-            if token.root is '*':
+            if token.root is '(' or token.root is ')':
+                continue  # Just to skip '()'
+            elif token.root is '*':
                 print(f"{token.root} : {token.type}")
+            elif token.root is '/':
+                print(f"{token.root} : {token.type}")
+            elif token.root is '-':
+                print(f"{token.root} : {token.type}")
+            elif token.root is '+':
+                print(f"{token.root} : {token.type}")
+            else:
+                print(f"An error has occurred at {token.root}, AST can not be made, exiting.")
+                exit(1)
+        elif token.type is "NUMBER" or token.type is "IDENTIFIER":
+            if index > 0:
+                prev = token_bank[index-1]
+            else:
+                continue
+
+            if prev.type is "SYMBOL":
+                if prev.left is None:
+                    prev.left = token
+                    print(f"{token.root} : {token.type}")
+                elif prev.right is None:
+                    prev.right = token
+                    print(f"{token.root} : {token.type}")
+                else:
+                    print(f"No children left: {token}")
+            else:
+                print(f"Fall-Through: {token}")
+        else:
+            print(f"Full Fall-Through: {token}")
