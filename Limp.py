@@ -1,6 +1,6 @@
 ###
 # Greg Jewell
-# Phase 1.2 Limp, main file
+# Phase 2.1 Limp, main file
 ###
 
 import os
