@@ -16,17 +16,18 @@ token_bank = []
 
 
 class Tokens:
-    def __init__(self, i, base, t, l, r):
+    def __init__(self, i, base=None, t="ERROR", p=None, l=None, r=None):
         self.line = i
         self.root = base
         self.type = t
+        self.parent = p
         self.left = l
         self.right = r
 
     def print(self):
-        print(f"line: {self.line}")
         print(f"root: {self.root}")
         print(f"type: {self.type}")
+        print(f"parent: {self.parent}")
         print(f"left: {self.left}")
         print(f"right: {self.right}")
         print("------------------")
@@ -39,19 +40,19 @@ def output(lines):
         print(f"Line {line[0]} : {str.join(' ', line[1])}", file=out_file)
         for token in line[1]:
             if re.match(KEYWORD, token):
-                Token = Tokens(line[0], token, "KEYWORD", None, None)
+                Token = Tokens(line[0], token, "KEYWORD")
                 print(f"{token} : KEYWORD", file=out_file)
             elif re.match(IDENTIFIER, token):
-                Token = Tokens(line[0], token, "IDENTIFIER", None, None)
+                Token = Tokens(line[0], token, "IDENTIFIER")
                 print(f"{token} : IDENTIFIER", file=out_file)
             elif re.match(NUMBER, token):
-                Token = Tokens(line[0], token, "NUMBER", None, None)
+                Token = Tokens(line[0], token, "NUMBER")
                 print(f"{token} : NUMBER", file=out_file)
             elif re.match(SYMBOL, token):
-                Token = Tokens(line[0], token, "SYMBOL", None, None)
+                Token = Tokens(line[0], token, "SYMBOL")
                 print(f"{token} : SYMBOL", file=out_file)
             else:
-                Token = Tokens(line[0], token, "ERROR", None, None)
+                Token = Tokens(line[0], token, "ERROR")
                 print(f"{token} : ERROR", file=out_file)
 
             token_bank.append(Token)
@@ -167,35 +168,38 @@ def tokenize(file, line):
 
 def parse():
     index = -1
-    print("TOKENS!")
     for token in token_bank:
         index += 1
         if token.type is "SYMBOL":
             if token.root is '(' or token.root is ')':
                 continue  # Just to skip '()'
             elif token.root is '*':
-                print(f"{token.root} : {token.type}")
-                if index > 0 and (token_bank[index-1].type is "NUMBER" or token_bank[index-1].type is "IDENTIFIER"):
+                if (index - 1) > 0 and (token_bank[index-1].type is "NUMBER" or token_bank[index-1].type is "IDENTIFIER"):
+                    token_bank[index-1].parent = token
                     token.left = token_bank[index-1]
                 if (index + 1) <= len(token_bank) and token_bank[index+1].type is "SYMBOL":
+                    token_bank[index+1].parent = token
                     token.right = token_bank[index+1]
             elif token.root is '/':
-                print(f"{token.root} : {token.type}")
-                if index > 0 and (token_bank[index-1].type is "NUMBER" or token_bank[index-1].type is "IDENTIFIER"):
+                if (index - 1) > 0 and (token_bank[index-1].type is "NUMBER" or token_bank[index-1].type is "IDENTIFIER"):
+                    token_bank[index-1].parent = token
                     token.left = token_bank[index-1]
                 if (index + 1) <= len(token_bank) and token_bank[index+1].type is "SYMBOL":
+                    token_bank[index+1].parent = token
                     token.right = token_bank[index+1]
             elif token.root is '-':
-                print(f"{token.root} : {token.type}")
-                if index > 0 and (token_bank[index-1].type is "NUMBER" or token_bank[index-1].type is "IDENTIFIER"):
+                if (index - 1) > 0 and (token_bank[index-1].type is "NUMBER" or token_bank[index-1].type is "IDENTIFIER"):
+                    token_bank[index-1].parent = token
                     token.left = token_bank[index-1]
                 if (index + 1) <= len(token_bank) and token_bank[index+1].type is "SYMBOL":
+                    token_bank[index+1].parent = token
                     token.right = token_bank[index+1]
             elif token.root is '+':
-                print(f"{token.root} : {token.type}")
-                if index > 0 and (token_bank[index-1].type is "NUMBER" or token_bank[index-1].type is "IDENTIFIER"):
+                if (index - 1) > 0 and (token_bank[index-1].type is "NUMBER" or token_bank[index-1].type is "IDENTIFIER"):
+                    token_bank[index-1].parent = token
                     token.left = token_bank[index-1]
                 if (index + 1) <= len(token_bank) and token_bank[index+1].type is "SYMBOL":
+                    token_bank[index+1].parent = token
                     token.right = token_bank[index+1]
             else:
                 print(f"An error has occurred at line {token.line} for token {token.root}, AST can not be made, exiting.")
@@ -204,49 +208,3 @@ def parse():
     print("------------------")
     for token in token_bank:
         token.print()
-    # ast()
-
-
-# def ast():
-#     print("AST")
-#     print("------------------")
-#     token = None
-#     index = -1
-#
-#     # Prime
-#     for temp in token_bank:
-#         if temp.root is '*':
-#             token = temp
-#             token.print()
-#             break
-#
-#     if token is None:
-#         for temp in token_bank:
-#             if temp.root is '/':
-#                 token = temp
-#                 token.print()
-#                 break
-#
-#     if token is None:
-#         for temp in token_bank:
-#             if temp.root is '-':
-#                 token = temp
-#                 token.print()
-#                 break
-#
-#     if token is None:
-#         for temp in token_bank:
-#             if temp.root is '+':
-#                 token = temp
-#                 token.print()
-#                 break
-#
-#     while token.right is not None:
-#         if token.left is not None:
-#             left = token.left
-#             left.print()
-#
-#         right = token.right
-#         token.print()
-#         token = right
-
