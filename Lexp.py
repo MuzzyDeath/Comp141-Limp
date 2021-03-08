@@ -200,7 +200,6 @@ def parse():
 
 
 def ast():
-    print("TOKENS!")
     index = 0
     for temp in token_bank:
         if temp.root is '(' or temp.root is ')':
@@ -218,9 +217,10 @@ def ast():
     tabs = 0
     for token in token_bank:
         if symbols.match(token.root):
-            print(('\t' * tabs) + f"{token.root} : {token.type}")
+            tabs -= 1
+            print(('\t' * tabs) + f"{token.root} : {token.type}", file=out_file)
             tabs += 1
-            print(('\t' * tabs) + f"{token_bank[index - 1].root} : {token_bank[index - 1].type}")
+            print(('\t' * tabs) + f"{token_bank[index - 1].root} : {token_bank[index - 1].type}", file=out_file)
             tabs -= 1
 
         tabs += 1

@@ -12,3 +12,11 @@ x : IDENTIFIER
 ) : SYMBOL
 AST
 ------------------
+* : SYMBOL
+	3 : NUMBER
+	+ : SYMBOL
+		5 : NUMBER
+		/ : SYMBOL
+			2 : NUMBER
+			- : SYMBOL
+				x : IDENTIFIER
