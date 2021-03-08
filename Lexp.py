@@ -175,70 +175,78 @@ def parse():
                 continue  # Just to skip '()'
             elif token.root is '*':
                 print(f"{token.root} : {token.type}")
+                if index > 0 and (token_bank[index-1].type is "NUMBER" or token_bank[index-1].type is "IDENTIFIER"):
+                    token.left = token_bank[index-1]
+                if (index + 1) <= len(token_bank) and token_bank[index+1].type is "SYMBOL":
+                    token.right = token_bank[index+1]
             elif token.root is '/':
                 print(f"{token.root} : {token.type}")
+                if index > 0 and (token_bank[index-1].type is "NUMBER" or token_bank[index-1].type is "IDENTIFIER"):
+                    token.left = token_bank[index-1]
+                if (index + 1) <= len(token_bank) and token_bank[index+1].type is "SYMBOL":
+                    token.right = token_bank[index+1]
             elif token.root is '-':
                 print(f"{token.root} : {token.type}")
+                if index > 0 and (token_bank[index-1].type is "NUMBER" or token_bank[index-1].type is "IDENTIFIER"):
+                    token.left = token_bank[index-1]
+                if (index + 1) <= len(token_bank) and token_bank[index+1].type is "SYMBOL":
+                    token.right = token_bank[index+1]
             elif token.root is '+':
                 print(f"{token.root} : {token.type}")
+                if index > 0 and (token_bank[index-1].type is "NUMBER" or token_bank[index-1].type is "IDENTIFIER"):
+                    token.left = token_bank[index-1]
+                if (index + 1) <= len(token_bank) and token_bank[index+1].type is "SYMBOL":
+                    token.right = token_bank[index+1]
             else:
                 print(f"An error has occurred at line {token.line} for token {token.root}, AST can not be made, exiting.")
                 exit(1)
 
-            if token_bank[index+1].type is "NUMBER" or token_bank[index+1].type is "IDENTIFIER":
-                token.right = token_bank[index+1]
-            elif token_bank[index+1] is not None:
-                token.right = token_bank[index+1]
-
-        elif token.type is "NUMBER" or token.type is "IDENTIFIER":
-            prev = token_bank[index-1]
-            print(f"{token.root} : {token.type}")
-            if prev.type is "SYMBOL":
-                token.left = token_bank[index-1]
-
-    ast()
-
-
-def ast():
-    print("AST")
     print("------------------")
-    token = None
-    index = -1
-
-    # Prime
-    for temp in token_bank:
-        if temp.root is '*':
-            token = temp
-            token.print()
-            break
-
-    if token is None:
-        for temp in token_bank:
-            if temp.root is '/':
-                token = temp
-                token.print()
-                break
-
-    if token is None:
-        for temp in token_bank:
-            if temp.root is '-':
-                token = temp
-                token.print()
-                break
-
-    if token is None:
-        for temp in token_bank:
-            if temp.root is '+':
-                token = temp
-                token.print()
-                break
-
-    while token.right is not None:
-        if token.left is not None:
-            left = token.left
-            left.print()
-
-        right = token.right
+    for token in token_bank:
         token.print()
-        token = right
+    # ast()
+
+
+# def ast():
+#     print("AST")
+#     print("------------------")
+#     token = None
+#     index = -1
+#
+#     # Prime
+#     for temp in token_bank:
+#         if temp.root is '*':
+#             token = temp
+#             token.print()
+#             break
+#
+#     if token is None:
+#         for temp in token_bank:
+#             if temp.root is '/':
+#                 token = temp
+#                 token.print()
+#                 break
+#
+#     if token is None:
+#         for temp in token_bank:
+#             if temp.root is '-':
+#                 token = temp
+#                 token.print()
+#                 break
+#
+#     if token is None:
+#         for temp in token_bank:
+#             if temp.root is '+':
+#                 token = temp
+#                 token.print()
+#                 break
+#
+#     while token.right is not None:
+#         if token.left is not None:
+#             left = token.left
+#             left.print()
+#
+#         right = token.right
+#         token.print()
+#         token = right
 
