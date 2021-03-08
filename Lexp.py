@@ -218,10 +218,9 @@ def ast():
     tabs = 0
     for token in token_bank:
         if symbols.match(token.root):
-            tmp = ('\t' * tabs)
-            print(tmp + f"{token.root} : {token.type}")
+            print(('\t' * tabs) + f"{token.root} : {token.type}")
             tabs += 1
-            print(tmp + f"{token_bank[index - 1].root} : {token_bank[index - 1].type}")
+            print(('\t' * tabs) + f"{token_bank[index - 1].root} : {token_bank[index - 1].type}")
             tabs -= 1
 
         tabs += 1
