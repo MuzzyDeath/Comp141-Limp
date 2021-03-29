@@ -1,6 +1,7 @@
 ###
 # Greg Jewell
-# Phase 2.1 Lexp, Tokenizer
+# Phase 2.2 Lexp, Tokenizer
+# Initial Pass
 ###
 
 import re
@@ -193,7 +194,10 @@ def parse():
                 if (index + 1) <= len(token_bank) and token_bank[index+1].type is "SYMBOL":
                     token.right = token_bank[index+1]
             else:
-                print(f"An error has occurred at line {token.line} for token {token.root}, AST can not be made, exiting.")
+                out_file = open(sys.argv[2], 'a')
+                print(f"An error has occurred at line {token.line} for token {token.root}, AST can not be made, exiting."
+                      , file=out_file)
+                out_file.close()
                 exit(1)
 
     ast()
